@@ -6,9 +6,8 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
 
-import net.sf.json.JSONObject;
-
 import com.ai.slp.sdk.constants.ExceptCodeConstants;
+import com.alibaba.fastjson.JSONObject;
 
 public class DubboRestResponseFilter implements ContainerResponseFilter {
 
