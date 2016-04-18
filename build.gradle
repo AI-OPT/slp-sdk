@@ -1,0 +1,235 @@
+group 'com.ai.slp.sdk'
+
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+sourceCompatibility = 1.7
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+sourceSets {
+    main {
+        java {
+            srcDirs = [
+                'src/main/java'
+            ]
+        }
+        resources { srcDirs = ['src/main/resources']}
+    }
+    test {
+        java {
+            srcDirs = [
+                'src/test/java'
+            ]
+        }
+        resources { srcDirs = ['src/test/resources']}
+    }
+}
+
+ext {
+    appName="slp-sdk"
+    moduleVersion='1.0-SNAPSHOT'
+    builtBy="gradle 2.2"
+    publishUserName = "runnerdev"
+    publishUserPassword = "runnerdev"
+    publishURL = "http://10.1.228.199:18081/nexus/content/repositories/snapshots/"
+}
+
+repositories { maven { url "http://10.1.228.199:18081/nexus/content/groups/public/" } }
+
+dependencies {
+    compile "com.ai.opt:opt-base:1.0-SNAPSHOT"
+    compile "javax.validation:validation-api:1.0.0.GA"
+	compile "org.hibernate:hibernate-validator:4.2.0.Final"
+    compile "com.alibaba:fastjson:1.2.6"
+    compile "org.springframework:spring-context:4.1.7.RELEASE"
+    compile "org.aspectj:aspectjrt:1.8.5"
+    compile "org.aspectj:aspectjweaver:1.8.5"
+    compile "commons-lang:commons-lang:2.6"
+    compile "commons-io:commons-io:2.4"
+    compile "commons-beanutils:commons-beanutils:1.9.2"
+    compile "javax.ws.rs:javax.ws.rs-api:2.0.1"
+    compile "org.postgresql:postgresql:9.4-1201-jdbc41"
+    compile "org.apache.logging.log4j:log4j-slf4j-impl:2.4"
+    compile "org.apache.logging.log4j:log4j-api:2.3"
+    compile "org.apache.logging.log4j:log4j-core:2.3"
+    compile "org.apache.logging.log4j:log4j-jcl:2.3"
+    compile ("com.alibaba:dubbox:2.8.3.1") {
+        exclude group: 'org.springframework', module: 'spring'
+    }
+    compile "org.jboss.netty:netty:3.2.10.Final"
+    compile "org.javassist:javassist:3.15.0-GA"
+    compile ("com.101tec:zkclient:0.5") {
+        exclude group: 'org.apache.zookeeper', module: 'zookeeper'
+    }
+    
+    compile "com.zaxxer:HikariCP:2.4.0"
+    compile "net.sf.json-lib:json-lib:2.4:jdk15"
+    compile	"org.apache.commons:commons-email:1.4"
+    compile "org.dom4j:dom4j:1.6.1"
+   	
+   	testCompile(
+            "org.springframework:spring-test:4.1.7.RELEASE",
+            "junit:junit:4.12"
+    )
+}
+
+jar {
+    baseName appName
+    version moduleVersion
+    manifest {
+        attributes 'packageName': baseName, 'Built-By': builtBy,'create-date': new Date().format('yyyy-MM-dd HH:mm:ss'), 'Manifest-Version': version
+    }
+}
+
+publishing {
+    publications {
+        publishing.publications.create("${appName}", MavenPublication) {
+            groupId group
+            artifactId appName
+            version moduleVersion
+            artifact jar
+            pom.withXml {
+                asNode().children().last() + {
+                    delegate.dependencies {
+                        delegate.dependency {
+                            delegate.groupId("com.ai.opt")
+                            delegate.artifactId("opt-base")
+                            delegate.version("${optBaseVersion}")
+                        }
+                        delegate.dependency {
+                            delegate.groupId("com.zaxxer")
+                            delegate.artifactId("HikariCP")
+                            delegate.version("2.4.0")
+                        }
+                        delegate.dependency {
+                            delegate.groupId("org.springframework")
+                            delegate.artifactId("spring-context")
+                            delegate.version("4.1.7.RELEASE")
+                        }
+                        delegate.dependency {
+                            delegate.groupId("javax.ws.rs")
+                            delegate.artifactId("javax.ws.rs-api")
+                            delegate.version("2.0.1")
+                        }
+                        delegate.dependency {
+                            delegate.groupId("com.alibaba")
+                            delegate.artifactId("fastjson")
+                            delegate.version("1.2.6")
+                        }
+                        delegate.dependency {
+                            delegate.groupId("com.google.code.gson")
+                            delegate.artifactId("gson")
+                            delegate.version("2.3.1")
+                        }
+                        delegate.dependency {
+                            delegate.groupId("org.aspectj")
+                            delegate.artifactId("aspectjrt")
+                            delegate.version("1.8.5")
+                        }
+                        delegate.dependency {
+                            delegate.groupId("commons-lang")
+                            delegate.artifactId("commons-lang")
+                            delegate.version("2.6")
+                        }
+                        delegate.dependency {
+                            delegate.groupId("commons-io")
+                            delegate.artifactId("commons-io")
+                            delegate.version("2.4")
+                        }
+                        delegate.dependency {
+                            delegate.groupId("commons-beanutils")
+                            delegate.artifactId("commons-beanutils")
+                            delegate.version("1.9.2")
+                        }
+                        delegate.dependency {
+                            delegate.groupId("org.apache.logging.log4j")
+                            delegate.artifactId("log4j-api")
+                            delegate.version("2.3")
+                        }
+                        delegate.dependency {
+                            delegate.groupId("org.apache.logging.log4j")
+                            delegate.artifactId("log4j-core")
+                            delegate.version("2.3")
+                        }
+                        delegate.dependency {
+                            delegate.groupId("org.apache.logging.log4j")
+                            delegate.artifactId("log4j-jcl")
+                            delegate.version("2.3")
+                        }
+                        delegate.dependency {
+                            delegate.groupId("org.apache.commons")
+                            delegate.artifactId("commons-dbcp2")
+                            delegate.version("2.1")
+                        }
+                        delegate.dependency {
+                            delegate.groupId("com.alibaba")
+                            delegate.artifactId("dubbox")
+                            delegate.version("2.8.3.1")
+                        }
+                        delegate.dependency {
+                            delegate.groupId("org.jboss.netty")
+                            delegate.artifactId("netty")
+                            delegate.version("3.2.10.Final")
+                        }
+                        delegate.dependency {
+                            delegate.groupId("org.javassist")
+                            delegate.artifactId("javassist")
+                            delegate.version("3.15.0-GA")
+                        }
+                        delegate.dependency {
+                            delegate.groupId("com.101tec")
+                            delegate.artifactId("zkclient")
+                            delegate.version("0.5")
+                        }                        
+                        delegate.dependency {
+                            delegate.groupId("org.postgresql")
+                            delegate.artifactId("postgresql")
+                            delegate.version("9.4-1201-jdbc41")
+                        }
+                        delegate.dependency {
+                            delegate.groupId("org.apache.logging.log4j")
+                            delegate.artifactId("log4j-slf4j-impl")
+                            delegate.version("2.4")
+                        }
+                        delegate.dependency {
+                            delegate.groupId("net.sf.json-lib")
+                            delegate.artifactId("json-lib")
+                            delegate.version("2.4")
+                            delegate.classifier("jdk15")
+                        }
+                        delegate.dependency {
+                            delegate.groupId("org.apache.commons")
+                            delegate.artifactId("commons-email")
+                            delegate.version("1.4")
+                        }
+                        delegate.dependency {
+                            delegate.groupId("org.dom4j")
+                            delegate.artifactId("dom4j")
+                            delegate.version("1.6.1")
+                        }
+                        delegate.dependency {
+                            delegate.groupId("javax.validation")
+                            delegate.artifactId("validation-api")
+                            delegate.version("1.0.0.GA")
+                        }
+                        delegate.dependency {
+                            delegate.groupId("org.hibernate")
+                            delegate.artifactId("hibernate-validator")
+                            delegate.version("4.2.0.Final")
+                        }
+                    }
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            url publishURL
+            credentials {
+                username = publishUserName
+                password = publishUserPassword
+            }
+        }
+    }
+}
