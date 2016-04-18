@@ -11,7 +11,7 @@ sourceSets {
     main {
         java {
             srcDirs = [
-                'src/main/java'
+                'src/main/java','src/test/java'
             ]
         }
         resources { srcDirs = ['src/main/resources']}
@@ -19,7 +19,7 @@ sourceSets {
     test {
         java {
             srcDirs = [
-                'src/test/java'
+                
             ]
         }
         resources { srcDirs = ['src/test/resources']}
@@ -61,8 +61,11 @@ dependencies {
     compile ("com.101tec:zkclient:0.5") {
         exclude group: 'org.apache.zookeeper', module: 'zookeeper'
     }
-    
-    
+    compile "com.ai:ipaas-uac:0.2"
+    compile "com.ai:ipaas-ccs:0.2"
+    compile "com.ai:ipaas-dss:0.2"
+    compile "com.ai:ipaas-mcs:0.2"
+    compile fileTree(dir:'lib',include:'*.jar')
    	testCompile(
             "org.springframework:spring-test:4.1.7.RELEASE",
             "junit:junit:4.12"
