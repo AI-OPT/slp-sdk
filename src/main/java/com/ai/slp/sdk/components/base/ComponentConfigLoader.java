@@ -56,7 +56,7 @@ public final class ComponentConfigLoader {
             prop = new Properties();
             prop.load(is);
         } catch (IOException e) {
-            throw new SDKException("loding config file failed", e);
+            throw new SDKException("loding paas config file failed", e);
         }
     }
 

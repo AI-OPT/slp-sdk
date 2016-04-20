@@ -17,15 +17,15 @@ import com.ai.slp.sdk.exception.SDKException;
  * 
  * @author zhangchao
  */
-public final class CCSBuilderFactory {
+public final class CCSFactory {
 
-    private static final Logger LOG = LogManager.getLogger(CCSBuilderFactory.class);
+    private static final Logger LOG = LogManager.getLogger(CCSFactory.class);
 
-    private CCSBuilderFactory() {
+    private CCSFactory() {
 
     }
 
-    public IConfigClient getConfigClient() {
+    public static IConfigClient getDefaultConfigClient() {
         PaasAuthInfo authInfo = ComponentConfigLoader.getInstance().getPaasAuthInfo();
         AuthDescriptor authDescriptor = new AuthDescriptor(authInfo.getAuthUrl(),
                 authInfo.getUserName(), authInfo.getCcsPassword(), authInfo.getCcsServiceId());
@@ -40,4 +40,18 @@ public final class CCSBuilderFactory {
         return client;
     }
 
+    public static IConfigClient getConfigClient(String serviceId, String password) {
+        PaasAuthInfo authInfo = ComponentConfigLoader.getInstance().getPaasAuthInfo();
+        AuthDescriptor authDescriptor = new AuthDescriptor(authInfo.getAuthUrl(),
+                authInfo.getUserName(), password, serviceId);
+
+        IConfigClient client = null;
+        try {
+            client = ConfigFactory.getConfigClient(authDescriptor);
+        } catch (Exception e) {
+            LOG.error("get paas config center error", e);
+            throw new SDKException(e);
+        }
+        return client;
+    }
 }
