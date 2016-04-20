@@ -63,8 +63,8 @@ public final class ComponentConfigLoader {
     public PaasAuthInfo getPaasAuthInfo() {
         String authUrl = prop.getProperty("paas.auth.url");
         String user = prop.getProperty("paas.auth.user");
-        String ccsServiceId = prop.getProperty("paas.runner.ccs.serviceid");
-        String ccsServicePwd = prop.getProperty("paas.runner.ccs.servicepassword");
+        String ccsServiceId = prop.getProperty("paas.ccs.serviceid");
+        String ccsServicePwd = prop.getProperty("paas.ccs.servicepassword");
         if (StringUtil.isBlank(authUrl)) {
             throw new SDKException("paas auth url is null");
         }
