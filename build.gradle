@@ -93,7 +93,7 @@ publishing {
                         delegate.dependency {
                             delegate.groupId("com.ai.opt")
                             delegate.artifactId("opt-base")
-                            delegate.version("${optBaseVersion}")
+                            delegate.version("1.0-SNAPSHOT")
                         }
                         delegate.dependency {
                             delegate.groupId("javax.validation")
