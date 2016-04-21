@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import com.ai.slp.sdk.components.mo.PaasAuthInfo;
+import com.ai.slp.sdk.components.mo.PaasConf;
 import com.ai.slp.sdk.exception.SDKException;
 import com.ai.slp.sdk.util.StringUtil;
 
@@ -60,11 +60,13 @@ public final class ComponentConfigLoader {
         }
     }
 
-    public PaasAuthInfo getPaasAuthInfo() {
+    public PaasConf getPaasAuthInfo() {
         String authUrl = prop.getProperty("paas.auth.url");
         String user = prop.getProperty("paas.auth.user");
         String ccsServiceId = prop.getProperty("paas.ccs.serviceid");
         String ccsServicePwd = prop.getProperty("paas.ccs.servicepassword");
+        
+        String seqDatasource = prop.getProperty("seq.datasource.name");
         if (StringUtil.isBlank(authUrl)) {
             throw new SDKException("paas auth url is null");
         }
@@ -77,12 +79,13 @@ public final class ComponentConfigLoader {
         if (StringUtil.isBlank(ccsServicePwd)) {
             throw new SDKException("paas ccs service password is null");
         }
-        PaasAuthInfo paasAuthInfo = new PaasAuthInfo();
-        paasAuthInfo.setAuthUrl(authUrl);
-        paasAuthInfo.setUserName(user);
-        paasAuthInfo.setCcsServiceId(ccsServiceId);
-        paasAuthInfo.setCcsPassword(ccsServicePwd);
-        return paasAuthInfo;
+        PaasConf pc = new PaasConf();
+        pc.setAuthUrl(authUrl);
+        pc.setUserName(user);
+        pc.setCcsServiceId(ccsServiceId);
+        pc.setCcsPassword(ccsServicePwd);
+        pc.setSeqDataSource(seqDatasource);
+        return pc;
     }
 
 }

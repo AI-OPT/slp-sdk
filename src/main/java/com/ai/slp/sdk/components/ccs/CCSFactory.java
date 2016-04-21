@@ -7,7 +7,7 @@ import com.ai.paas.ipaas.ccs.ConfigFactory;
 import com.ai.paas.ipaas.ccs.IConfigClient;
 import com.ai.paas.ipaas.uac.vo.AuthDescriptor;
 import com.ai.slp.sdk.components.base.ComponentConfigLoader;
-import com.ai.slp.sdk.components.mo.PaasAuthInfo;
+import com.ai.slp.sdk.components.mo.PaasConf;
 import com.ai.slp.sdk.exception.SDKException;
 
 /**
@@ -26,7 +26,7 @@ public final class CCSFactory {
     }
 
     public static IConfigClient getDefaultConfigClient() {
-        PaasAuthInfo authInfo = ComponentConfigLoader.getInstance().getPaasAuthInfo();
+        PaasConf authInfo = ComponentConfigLoader.getInstance().getPaasAuthInfo();
         AuthDescriptor authDescriptor = new AuthDescriptor(authInfo.getAuthUrl(),
                 authInfo.getUserName(), authInfo.getCcsPassword(), authInfo.getCcsServiceId());
 
@@ -41,7 +41,7 @@ public final class CCSFactory {
     }
 
     public static IConfigClient getConfigClient(String serviceId, String password) {
-        PaasAuthInfo authInfo = ComponentConfigLoader.getInstance().getPaasAuthInfo();
+        PaasConf authInfo = ComponentConfigLoader.getInstance().getPaasAuthInfo();
         AuthDescriptor authDescriptor = new AuthDescriptor(authInfo.getAuthUrl(),
                 authInfo.getUserName(), password, serviceId);
 

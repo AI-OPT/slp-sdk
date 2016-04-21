@@ -5,7 +5,7 @@ import com.ai.paas.ipaas.mcs.interfaces.ICacheClient;
 import com.ai.paas.ipaas.uac.vo.AuthDescriptor;
 import com.ai.paas.ipaas.util.StringUtil;
 import com.ai.slp.sdk.components.base.ComponentConfigLoader;
-import com.ai.slp.sdk.components.mo.PaasAuthInfo;
+import com.ai.slp.sdk.components.mo.PaasConf;
 import com.ai.slp.sdk.components.utils.ConfigTool;
 import com.ai.slp.sdk.exception.SDKException;
 
@@ -21,7 +21,7 @@ public final class MCSFactory {
         }
         String ccsId = ConfigTool.getCCSId(cachens);
         String ccsPwd = ConfigTool.getServicePwd(ccsId);
-        PaasAuthInfo authInfo = ComponentConfigLoader.getInstance().getPaasAuthInfo();
+        PaasConf authInfo = ComponentConfigLoader.getInstance().getPaasAuthInfo();
         AuthDescriptor authDescriptor = new AuthDescriptor(authInfo.getAuthUrl(),
                 authInfo.getUserName(), ccsPwd, ccsId);
         ICacheClient client;

@@ -2,11 +2,13 @@ package com.ai.slp.sdk.components.utils;
 
 import com.ai.paas.ipaas.ccs.constants.ConfigException;
 import com.ai.paas.ipaas.util.StringUtil;
+import com.ai.slp.sdk.components.base.ComponentConfigLoader;
 import com.ai.slp.sdk.components.ccs.CCSFactory;
 import com.ai.slp.sdk.constants.SDKConstants;
 import com.ai.slp.sdk.exception.SDKException;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.zaxxer.hikari.HikariConfig;
 
 public final class ConfigTool {
 
@@ -54,6 +56,36 @@ public final class ConfigTool {
         } catch (ConfigException e) {
             throw new SDKException("获取缓存命名空间对应的服务ID错误", e);
         }
+    }
+
+    public static final HikariConfig getSeqDBConf() {
+        String ds = ComponentConfigLoader.getInstance().getPaasAuthInfo().getSeqDataSource();
+        if (StringUtil.isBlank(ds)) {
+            throw new SDKException("没有指定或配置SEQ序列生成的数据服务");
+        }
+        return getDBConf(ds);
+    }
+
+    public static HikariConfig getDBConf(String dataSourceName) {
+        String data;
+        try {
+            data = CCSFactory.getDefaultConfigClient().get(SDKConstants.DATASOURCES_PATH);
+        } catch (ConfigException e) {
+            throw new SDKException("get database conf error from path["
+                    + SDKConstants.DATASOURCES_PATH + "]", e);
+        }
+        if (StringUtil.isBlank(data)) {
+            throw new SDKException("cann't get database conf from path["
+                    + SDKConstants.DATASOURCES_PATH + "]");
+        }
+        JSONObject dbConfJson = JSONObject.parseObject(data);
+        JSONObject confObject = (JSONObject) dbConfJson.get(dataSourceName);
+        if (confObject == null) {
+            throw new SDKException("cann't get database config info of dataSourceName["
+                    + dataSourceName + "]");
+        }
+        HikariConfig dbconf = JSONObject.toJavaObject(confObject, HikariConfig.class);
+        return dbconf;
     }
 
 }

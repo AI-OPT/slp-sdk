@@ -3,7 +3,7 @@ package com.ai.slp.sdk.components.mo;
 import com.ai.slp.sdk.exception.SDKException;
 import com.alibaba.dubbo.common.utils.StringUtils;
 
-public class PaasAuthInfo {
+public class PaasConf {
     // 认证地址
     private String authUrl;
 
@@ -15,6 +15,9 @@ public class PaasAuthInfo {
 
     // 分配给平台的配置中心地址
     private String ccsServiceId;
+
+    // SEQ采用的数据源名称
+    private String seqDataSource;
 
     public String getAuthUrl() {
         return authUrl;
@@ -59,4 +62,13 @@ public class PaasAuthInfo {
         }
         this.ccsServiceId = ccsServiceId;
     }
+
+    public String getSeqDataSource() {
+        return seqDataSource;
+    }
+
+    public void setSeqDataSource(String seqDataSource) {
+        this.seqDataSource = seqDataSource;
+    }
+
 }

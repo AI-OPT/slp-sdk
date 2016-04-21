@@ -16,10 +16,12 @@ import com.ai.slp.sdk.components.sequence.dao.impl.SequenceDaoImpl;
 import com.ai.slp.sdk.components.sequence.mo.Sequence;
 import com.ai.slp.sdk.components.sequence.mo.SequenceCache;
 import com.ai.slp.sdk.components.sequence.service.ISequenceService;
+import com.ai.slp.sdk.components.utils.ConfigTool;
 import com.ai.slp.sdk.exception.SDKException;
 import com.ai.slp.sdk.util.CollectionUtil;
 import com.ai.slp.sdk.util.StringUtil;
 import com.alibaba.fastjson.JSONObject;
+import com.zaxxer.hikari.HikariDataSource;
 
 public class SequenceServiceImpl implements ISequenceService {
     public static final Logger LOG = LoggerFactory.getLogger(SequenceServiceImpl.class);
@@ -45,6 +47,7 @@ public class SequenceServiceImpl implements ISequenceService {
     }
 
     private void initDb() {
+        db = new HikariDataSource(ConfigTool.getSeqDBConf());
         if (db == null) {
             throw new SDKException("SEQ datasource init error");
         }
